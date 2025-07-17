@@ -3,18 +3,18 @@ on: push
 
 jobs:
   deploy_API:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Configure AWS credentials
         id: creds
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3
+          aws-region: eu-central-1
       - name: Deploy
         #STAGE: prod
         run: |
@@ -30,6 +30,7 @@ jobs:
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
           dart pub get
+          dart run build_runner build --delete-conflicting-outputs
           dart compile exe lib/main.dart -o build/bootstrap
           cd build
           zip bootstrap.zip ./*
