@@ -16,6 +16,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::350214641615:role/GitHub_Deploy
           aws-region: eu-central-1
+      - name: Serverless Login
+        run: |
+          echo ${{ secrets.SERVERLESS_ACCESS_KEY }} | serverless login
       - name: Deploy
         #STAGE: prod
         run: |
@@ -26,11 +29,10 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install dart zip
           mkdir build
-          npm install -g serverless@3.39.0
+          npm install -g serverless@latest
           npm install --save-dev aws-sdk@latest
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
-          npm config set @serverless:registry https://registry.npmjs.org/
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
           dart compile exe lib/main.dart -o build/bootstrap
