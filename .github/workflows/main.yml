@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Configure AWS credentials
         id: creds
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -25,8 +25,8 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install dart zip
           mkdir build
-          npm install --save-dev aws-sdk@2.1259.0
-          npm install serverless
+          npm install -g serverless@3.40.0
+          npm install --save-dev aws-sdk@latest
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
           dart pub get
@@ -35,4 +35,4 @@ jobs:
           cd build
           zip bootstrap.zip ./*
           cd ..
-          npx serverless deploy
+          npx serverless deploy --verbose
