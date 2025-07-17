@@ -1,4 +1,4 @@
-service: golem_backend
+service: golem-backend
 provider:
   name: aws
   deploymentMethod: direct
