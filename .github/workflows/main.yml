@@ -26,10 +26,11 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install dart zip
           mkdir build
-          npm install -g serverless@3.40.0
+          npm install -g serverless@3.38.0
           npm install --save-dev aws-sdk@latest
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
+          npm config set @serverless:registry https://registry.npmjs.org/
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
           dart compile exe lib/main.dart -o build/bootstrap
