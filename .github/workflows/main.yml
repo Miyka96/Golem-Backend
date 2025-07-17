@@ -2,7 +2,7 @@ name: Main
 on: push
 
 jobs:
-  deploy_API:
+  deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
