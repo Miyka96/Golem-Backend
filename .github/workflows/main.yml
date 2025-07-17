@@ -16,11 +16,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::350214641615:role/GitHub_Deploy
           aws-region: eu-central-1
-      - name: Serverless Login
-        run: |
-          echo ${{ secrets.SERVERLESS_ACCESS_KEY }} | serverless login
-      - name: Deploy
-        #STAGE: prod
+      - name: Setup Environment
         run: |
           sudo apt-get update
           sudo apt-get -y install apt-transport-https
@@ -28,8 +24,14 @@ jobs:
           echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
           sudo apt-get update
           sudo apt-get -y install dart zip
-          mkdir build
           npm install -g serverless@latest
+      - name: Serverless Login
+        run: |
+          echo ${{ secrets.SERVERLESS_ACCESS_KEY }} | serverless login
+      - name: Deploy
+        #STAGE: prod
+        run: |
+          mkdir build
           npm install --save-dev aws-sdk@latest
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
