@@ -26,7 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install dart zip
           mkdir build
-          npm install -g serverless@3.38.0
+          npm install -g serverless@3.39.0
           npm install --save-dev aws-sdk@latest
           npx serverless plugin install --name serverless-iam-roles-per-function
           npx serverless plugin install --name serverless-prune-plugin
