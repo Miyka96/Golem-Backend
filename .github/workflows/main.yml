@@ -25,11 +25,11 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install dart zip
           npm install -g serverless@latest
-      - name: Serverless Login
-        run: |
-          echo ${{ secrets.SERVERLESS_ACCESS_KEY }} | serverless login
+
       - name: Deploy
         #STAGE: prod
+        env:
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: |
           mkdir build
           npm install --save-dev aws-sdk@latest
